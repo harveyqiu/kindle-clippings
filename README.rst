@@ -36,7 +36,7 @@ Run `kindle.py`
 
 .. code:: bash
 
-    $ python kindle.py
+    $ python kindle_python3.py
 
 DONE!
 
