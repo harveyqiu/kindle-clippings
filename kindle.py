@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import collections
 import json
 import os
 import re
+import codecs
 
 BOUNDARY = u"==========\r\n"
 DATA_FILE = u"clips.json"
@@ -43,12 +44,17 @@ def export_txt(clips):
     """
     for book in clips:
         lines = []
-        for pos in sorted(clips[book]):
+        sorted_book = sorted(clips[book], key=lambda x: int(x))
+        for pos in sorted_book:
             lines.append(clips[book][pos].encode('utf-8'))
 
         filename = os.path.join(OUTPUT_DIR, u"%s.md" % book)
-        with open(filename, 'wb') as f:
-            f.write("\n\n---\n\n".join(lines))
+    
+        # with codecs.open(filename, 'wb', 'utf-8') as f:
+        f = codecs.open(filename, 'wb')
+        # Original is f.write("\n\n---\n\n".join(lines))
+        f.write(b"\n\n---\n\n".join(lines))
+        f.close()
 
 
 def load_clips():
@@ -66,7 +72,8 @@ def save_clips(clips):
     """
     Save new clips to DATA_FILE
     """
-    with open(DATA_FILE, 'wb') as f:
+    # Original is with open(DATA_FILE, 'wb') as f:
+    with open(DATA_FILE, 'w') as f:
         json.dump(clips, f)
 
 
